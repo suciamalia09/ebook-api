@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Book;
+use App\Models\Author;
 
-class BookController extends Controller
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        $book = Book::all();
-        return $book;
+        $author = Author::all();
+        return $author;
     }
 
     /**
@@ -36,12 +36,13 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $table = Book::create([
-            "title" => $request->title,
-            "description" => $request->description,
-            "author" => $request->author,
-            "publisher" => $request->publisher,
-            "date_of_issue" => $request->date_of_issue
+        $table = Author::create([
+            "name" => $request->name,
+            "date_of_bird" => $request->date_of_bird,
+            "place_of_bird" => $request->place_of_bird,
+            "gender" => $request->gender,
+            "email" => $request->email,
+            "hp" => $request->hp
         ]);
 
         return response()->json([
@@ -59,11 +60,11 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = book::find($id);
-        if ($book) {
+        $author = author::find($id);
+        if ($author) {
             return response()->json([
                 'status' => 200,
-                'data' => $book
+                'data' => $author
 
             ],200);
         } else {
@@ -94,17 +95,18 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $book = book::find($id);
-        if($book){
-            $book->title = $request->title ? $request->title : $book->title;
-            $book->description = $request->description ? $request->description : $book->description;
-            $book->author = $request->author ? $request->author : $book->author;
-            $book->publisher = $request->publisher ? $request->publisher : $book->publisher;
-            $book->date_of_issue = $request->date_of_issue ? $request->date_of_issue : $book->date_of_issue;
-            $book->save();
+        $author = author::find($id);
+        if($author){
+            $author->name = $request->name ? $request->name : $author->name;
+            $author->date_of_bird = $request->date_of_bird ? $request->date_of_bird : $author->date_of_bird;
+            $author->place_of_bird = $request->place_of_bird ? $request->place_of_bird : $author->place_of_bird;
+            $author->gender = $request->gender ? $request->gender : $author->gender;
+            $author->email = $request->email ? $request->email : $author->email;
+            $author->hp = $request->hp ? $request->hp : $author->hp;
+            $author->save();
             return response()->json([
                 'status' => 200,
-                'data' => $book
+                'data' => $author
             ],200);
 
         } else{
@@ -123,12 +125,12 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        $book = book::where('id',$id)->first();
-        if($book){
-            $book->delete();
+        $author = author::where('id',$id)->first();
+        if($author){
+            $author->delete();
             return response()->json([
                 'status' =>200,
-                'data' => $book
+                'data' => $author
             ],200);
         } else{
             return response()->json([
